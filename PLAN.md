@@ -1,8 +1,4 @@
 # 프론트엔드 개발 플러그인 셋 — 계획서 v3
-
-> 프론트엔드 개발자의 일상 업무를 자동화하는 Claude Code 플러그인 모음
-> 참고: [bkit-claude-code](https://github.com/popup-studio-ai/bkit-claude-code) 벤치마킹
-
 ---
 
 ## 1. 프로젝트 개요
