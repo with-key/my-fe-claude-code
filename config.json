@@ -1,0 +1,43 @@
+{
+  "project": {
+    "name": "fe-dev-plugins",
+    "version": "0.1.0"
+  },
+  "test": {
+    "framework": {
+      "unit": "vitest",
+      "integration": "vitest + react-testing-library",
+      "e2e": "playwright"
+    },
+    "filePatterns": {
+      "unit": "*.test.ts",
+      "integration": "*.test.tsx",
+      "e2e": "*.spec.ts"
+    },
+    "autoRunOnChange": true
+  },
+  "designSystem": {
+    "name": "base-ui",
+    "styling": "panda-css",
+    "tokensAvailable": true,
+    "documentationComplete": false
+  },
+  "protectedFiles": [
+    ".env",
+    ".env.*",
+    "pnpm-lock.yaml",
+    "package-lock.json"
+  ],
+  "tdd": {
+    "qualityReview": true,
+    "preserveStateOnCompact": true,
+    "stateFile": ".claude/state/tdd-state.json"
+  },
+  "hooks": {
+    "configPath": "hooks/hooks.json"
+  },
+  "agents": {
+    "execution": ["tdd-runner", "ui-builder", "spec-analyzer"],
+    "verification": ["test-reviewer", "design-reviewer", "impact-analyzer", "code-reviewer"]
+  }
+}
