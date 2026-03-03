@@ -53,6 +53,47 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob
 - `*.test.tsx` → Vitest + React Testing Library 통합 테스트 (`npx vitest run <file>`)
 - `*.spec.ts` → Playwright E2E 테스트 (`npx playwright test <file>`)
 
+## React Testing Library 테스트 작성 원칙
+
+### BDD 스타일 구조
+
+`*.test.tsx` (React Testing Library) 테스트는 BDD(Behavior-Driven Development) 스타일로 작성한다.
+사용자 행동과 기대 결과를 중심으로 `describe` → `it` 구조를 구성한다.
+
+```tsx
+describe('장바구니', () => {
+  describe('상품 수량 변경', () => {
+    it('증가 버튼을 클릭하면 수량이 1 증가한다', () => { ... });
+    it('수량이 99일 때 증가 버튼이 비활성화된다', () => { ... });
+    it('수량이 1일 때 감소 버튼을 클릭하면 삭제 확인 다이얼로그가 표시된다', () => { ... });
+  });
+});
+```
+
+- `describe`는 기능/컨텍스트 단위로 중첩하여 시나리오를 그룹화한다.
+- `it`은 **사용자 행동 → 기대 결과** 형태로 작성한다. 내부 구현이 아닌 동작을 서술한다.
+- 테스트 이름만 읽어도 기능 명세서처럼 이해할 수 있어야 한다.
+
+### 모키스트 vs 클래시스트 전략
+
+테스트 대상의 성격에 따라 적절한 방식을 선택한다.
+
+**클래시스트 (Classicist)** — 기본 전략. 실제 구현에 가깝게 테스트한다.
+- 컴포넌트 렌더링 + 사용자 인터랙션 테스트
+- 상태 변경에 따른 UI 반영 테스트
+- 자식 컴포넌트를 mock하지 않고 함께 렌더링한다.
+
+**모키스트 (Mockist)** — 외부 의존성이 있을 때 사용한다.
+- API 호출: `msw` 또는 `vi.mock`으로 네트워크 요청을 mock한다.
+- 라우터/네비게이션: 라우터 동작을 mock한다.
+- 타이머/날짜: `vi.useFakeTimers()`로 시간 의존 로직을 제어한다.
+- 복잡한 전역 상태: 외부 store를 mock하여 특정 상태를 주입한다.
+
+**판단 기준:**
+- 컴포넌트 자체의 렌더링과 인터랙션 → 클래시스트
+- 외부 시스템(API, 라우터, 브라우저 API)과의 경계 → 모키스트
+- 판단이 어려우면 클래시스트를 우선하고, 테스트가 느리거나 불안정하면 모키스트로 전환한다.
+
 ## TDD 상태 파일 (`tdd-state.json`) 구조
 
 ```json
