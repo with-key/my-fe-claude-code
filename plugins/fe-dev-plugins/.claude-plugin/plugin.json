@@ -1,0 +1,10 @@
+{
+  "name": "fe-dev-plugins",
+  "version": "0.1.0",
+  "description": "프론트엔드 개발자를 위한 Claude Code 플러그인 셋 — TDD, 기획 문서 변환, 디자인 시스템 UI 구현 자동화",
+  "author": {
+    "name": "devwithkey"
+  },
+  "keywords": ["frontend", "tdd", "design-system", "spec", "convention"],
+  "outputStyles": ["output-styles/fe-dev.md"]
+}
