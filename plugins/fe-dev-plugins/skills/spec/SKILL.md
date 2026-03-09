@@ -1,13 +1,13 @@
 ---
 name: spec
-description: "기획 문서(PRD, 기능명세서)를 분석하여 프론트엔드 기능명세서를 생성합니다."
+description: "기획 문서(PRD, 기능명세서)를 분석하여 프론트엔드 개발 산출물(테스트 시나리오/컴포넌트 명세/API 스펙)을 생성합니다."
 user-invocable: true
 argument-hint: "<파일경로>"
 agent: spec-analyzer
 allowed-tools: Read, Write, Edit, Grep, Glob
 ---
 
-# /spec — 기획 문서 분석 및 프론트엔드 기능명세서 생성
+# /spec — 기획 문서 분석 및 프론트엔드 개발 산출물 생성
 
 > 트리거 키워드: 기획, PRD, 명세, spec, 기능명세서, 정책, 요구사항, 문서 분석
 
@@ -17,7 +17,12 @@ allowed-tools: Read, Write, Edit, Grep, Glob
 
 ### 동작
 
-**`/spec <파일경로>`** — 기획 문서를 분석하고 프론트엔드 기능명세서를 생성한다.
+**`/spec <파일경로>`** — 기획 문서를 분석하고 프론트엔드 개발 산출물을 생성한다.
+
+예시:
+```
+/spec ./docs/prd/cart.md
+```
 
 #### 1단계: 기획 문서 분석
 
@@ -28,11 +33,15 @@ allowed-tools: Read, Write, Edit, Grep, Glob
 - **기존 구현 상충 검토**: 프로젝트의 기존 코드와 상충되거나 충돌할 수 있는 부분을 확인한다.
 - **기술적 제약 분석**: 프론트엔드 구현 시 고려해야 할 기술적 제약사항을 파악한다.
 
-#### 2단계: 프론트엔드 기능명세서 생성
+#### 2단계: 프론트엔드 개발 산출물 생성
 
-분석 결과를 바탕으로 `docs/specs/<기능명>.md`에 기능명세서를 작성한다.
+분석 결과를 바탕으로 다음 문서를 생성한다.
 
-기능명세서에는 다음 내용을 포함한다:
+- `test-scenarios/<기능명>.md` — Given-When-Then 테스트 시나리오
+- `component-specs/<기능명>.md` — 컴포넌트 구조/Props/State/Event 명세
+- `api-specs/<기능명>.md` — API 연동 스펙
+
+각 산출물에는 다음 내용을 포함한다:
 
 - **기능 개요**: 기능의 목적과 범위
 - **화면별 상세 명세**: 화면 단위로 UI 요소, 상태, 인터랙션을 정의한다.
@@ -50,10 +59,13 @@ allowed-tools: Read, Write, Edit, Grep, Glob
 
 프로젝트 루트 기준:
 ```
-docs/specs/   ← 프론트엔드 기능명세서
+test-scenarios/  ← 테스트 시나리오
+component-specs/ ← 컴포넌트 명세
+api-specs/       ← API 스펙
 ```
 
 ## 주의사항
+- 입력 경로의 파일이 없으면 즉시 실패로 처리하고 `File not found: <경로>` 형식으로 오류를 출력한다.
 - 기획 문서에 명시된 내용을 기반으로 작성한다. 추측으로 요구사항을 추가하지 않는다.
 - 누락되거나 모호한 정보는 기획 피드백 섹션에 질문 형태로 정리한다.
 - 기존 프로젝트 코드를 반드시 탐색하여 상충 여부를 확인한다.

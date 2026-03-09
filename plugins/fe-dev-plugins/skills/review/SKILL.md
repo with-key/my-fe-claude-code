@@ -2,7 +2,7 @@
 name: review
 description: "git diff 기반으로 변경사항을 리뷰합니다. 테스트 코드와 구현 코드를 구분하여 시니어 프론트엔드 개발자 관점에서 검사합니다."
 user-invocable: true
-argument-hint: "[--security]"
+argument-hint: "[--security|--test]"
 agent: code-reviewer
 allowed-tools: Read, Grep, Glob, Bash
 ---
@@ -27,6 +27,11 @@ allowed-tools: Read, Grep, Glob, Bash
 1. git diff로 현재 변경사항을 파악한다.
 2. XSS, 인젝션, 인증 누락, 민감 데이터 노출을 중점 검사한다.
 3. 보안 관련 문제를 등급별로 출력한다.
+
+**`/review --test`** — 테스트 집중 리뷰
+1. git diff로 현재 변경사항을 파악한다.
+2. 변경 코드에 대응하는 테스트 존재 여부와 품질을 중점 검사한다.
+3. 커버리지 관점의 부족한 시나리오(경계값/에러/엣지 케이스)를 등급별로 출력한다.
 
 ## 리뷰 기준
 

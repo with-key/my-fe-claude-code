@@ -79,10 +79,20 @@ if [ -z "$TEST_FILE" ]; then
   exit 0
 fi
 
+if ! command -v npx &>/dev/null; then
+  echo '{ "result": "continue", "message": "Auto Test skipped: npx is not available." }'
+  exit 0
+fi
+
+if ! npx --no-install vitest --version &>/dev/null; then
+  echo '{ "result": "continue", "message": "Auto Test skipped: vitest is not installed in this project." }'
+  exit 0
+fi
+
 # 테스트 실행
 TEST_OUTPUT=""
 TEST_EXIT=0
-TEST_OUTPUT=$(npx vitest run "$TEST_FILE" --reporter=verbose 2>&1) || TEST_EXIT=$?
+TEST_OUTPUT=$(npx --no-install vitest run "$TEST_FILE" --reporter=verbose 2>&1) || TEST_EXIT=$?
 
 # 결과 파싱 (간단한 pass/fail 카운트)
 PASS_COUNT=$(echo "$TEST_OUTPUT" | grep -cE '✓|✔|PASS' || echo "0")

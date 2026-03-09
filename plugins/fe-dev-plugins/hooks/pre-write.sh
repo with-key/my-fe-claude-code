@@ -59,9 +59,8 @@ while IFS= read -r pattern; do
       ;;
   esac
 
-  # 경로 전체에 대해서도 매치 (예: pnpm-lock.yaml)
   case "$FILE_PATH" in
-    *"$pattern"*)
+    $pattern)
       BLOCKED=true
       MATCHED_PATTERN="$pattern"
       break

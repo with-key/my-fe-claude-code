@@ -1,21 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# SessionStart hook: TDD 상태 복원 + 스킬 안내
-# stdin: JSON (세션 시작 컨텍스트)
-# stdout: JSON { hookSpecificOutput: { hookEventName, additionalContext } }
-
 INPUT=$(cat)
 PLUGIN_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CONFIG_FILE="${PLUGIN_ROOT}/config.json"
 
-# TDD 상태 파일 경로
 TDD_STATE_FILE=".claude/state/tdd-state.json"
 if command -v jq &>/dev/null && [ -f "$CONFIG_FILE" ]; then
   TDD_STATE_FILE=$(jq -r '.tdd.stateFile // ".claude/state/tdd-state.json"' "$CONFIG_FILE" 2>/dev/null || echo ".claude/state/tdd-state.json")
 fi
 
-# TDD 상태 복원
 TDD_FEATURE=""
 TDD_PHASE=""
 TDD_PASS="0"
@@ -32,8 +26,8 @@ if [ -f "$TDD_STATE_FILE" ] && command -v jq &>/dev/null; then
   fi
 fi
 
-# Python으로 JSON 출력 (UTF-8 안전)
-python3 << PYEOF
+if command -v python3 &>/dev/null; then
+  python3 << PYEOF
 import json
 
 context_lines = [
@@ -42,10 +36,12 @@ context_lines = [
     "## 사용 가능한 스킬",
     "- /convention — 프로젝트 컨벤션 자동 추출",
     "- /spec — 기획 문서 분석 및 변환",
-    "- /tdd — TDD 사이클 (Red → Green → Refactor)",
+    "- /tdd — TDD 사이클 (Scenario → Red → Green → Refactor)",
     "- /ui — 디자인 시스템 기반 UI 구현",
-    "- /impact — PRD 변경 영향 분석",
+    "- /impact — 변경 영향 범위 빠른 분석",
     "- /review — 코드 리뷰",
+    "- /fix — 버그 진단 및 기획 변경 수정 방안 제시",
+    "- /deploy — 배포 검증 및 핸드오프",
     "- /help-me — 사용법 안내",
 ]
 
@@ -70,3 +66,17 @@ output = {
 
 print(json.dumps(output, ensure_ascii=False))
 PYEOF
+  exit 0
+fi
+
+if command -v jq &>/dev/null; then
+  jq -n '{
+    systemMessage: "fe-dev-plugins v0.1.0 activated",
+    hookSpecificOutput: {
+      hookEventName: "SessionStart",
+      additionalContext: "fe-dev-plugins activated\nUse /help-me workflow to get started."
+    }
+  }'
+else
+  echo '{"systemMessage":"fe-dev-plugins v0.1.0 activated","hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"fe-dev-plugins activated. Use /help-me workflow to get started."}}'
+fi

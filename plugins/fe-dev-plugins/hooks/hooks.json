@@ -30,7 +30,7 @@
           {
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/post-write.sh",
-            "timeout": 30000
+            "timeout": 120000
           }
         ]
       }

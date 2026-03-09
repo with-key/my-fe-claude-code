@@ -161,7 +161,10 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob
 
 ## 공통: TDD 상태 파일
 
-`.claude/state/tdd-state.json`:
+경로: `config.json`의 `tdd.stateFile` (기본값 `.claude/state/tdd-state.json`)
+
+### 상태 파일 구조
+
 ```json
 {
   "feature": "기능 설명",
@@ -173,6 +176,20 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob
   "updatedAt": "ISO 8601"
 }
 ```
+
+### 상태 저장 규칙
+
+1. **디렉토리 생성**: 상태를 처음 저장할 때 `mkdir -p .claude/state`를 실행한다.
+2. **단계별 필드 갱신**:
+
+| 단계 | 설정하는 필드 |
+|------|-------------|
+| `scenario` | `feature`, `phase: "scenario"`, `scenarioFile`, `updatedAt` |
+| `red` | `phase: "red"`, `testFile`, `tests` (total/pass/fail), `updatedAt` |
+| `green` | `phase: "green"`, `implFile`, `tests` (갱신), `updatedAt` |
+| `refactor` | `phase: "done"`, `tests` (갱신), `updatedAt` |
+
+3. **파일이 없는 경우**: `red`, `green`, `refactor`에서 상태 파일이 없으면 사용자에게 이전 단계 실행을 안내한다.
 
 ## 공통: 출력 형식
 

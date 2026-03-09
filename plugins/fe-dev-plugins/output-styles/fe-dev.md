@@ -9,7 +9,7 @@ TDD 관련 모든 출력에 포함합니다. Phase 진행 상태를 시각적으
 
 ```
 ┌─ TDD: <기능명> ─────────────────────────┐
-│ Phase: ● Red   ○ Green   ○ Refactor    │
+│ Phase: ● Scenario  ○ Red  ○ Green  ○ Refactor │
 │ Tests: 0/5 pass                         │
 │ Type:  Unit (Vitest)                    │
 │ File:  <테스트 파일 경로>                 │
@@ -22,10 +22,11 @@ Phase 아이콘 규칙:
 - `✓` 완료
 
 Phase 진행 표시:
-- Red 진행 중: `● Red   ○ Green  ○ Refactor`
-- Green 진행 중: `✓ Red   ● Green  ○ Refactor`
-- Refactor 진행 중: `✓ Red   ✓ Green  ● Refactor`
-- 완료: `✓ Red   ✓ Green  ✓ Refactor`
+- Scenario 진행 중: `● Scenario  ○ Red  ○ Green  ○ Refactor`
+- Red 진행 중: `✓ Scenario  ● Red  ○ Green  ○ Refactor`
+- Green 진행 중: `✓ Scenario  ✓ Red  ● Green  ○ Refactor`
+- Refactor 진행 중: `✓ Scenario  ✓ Red  ✓ Green  ● Refactor`
+- 완료: `✓ Scenario  ✓ Red  ✓ Green  ✓ Refactor`
 
 Quality 등급 (test-reviewer 결과):
 - `● Good` — 테스트 품질 양호
@@ -78,7 +79,37 @@ PRD 변경 영향 분석 결과를 표시합니다.
 │ Result:  <pass>/<total> PASS | <fail> FAIL │
 ```
 
-## 5. Stop 요약 박스
+## 5. Bug Diagnosis / Change Diagnosis 결과 박스
+
+버그 진단 또는 기획 변경 분석 결과를 표시합니다.
+
+버그 수정 모드:
+```
+┌─ Bug Diagnosis ────────────────────────┐
+│ Symptom: <버그 증상 요약>               │
+│ Type:    <에러 유형>                    │
+│ Cause:   <근본 원인 요약>               │
+│ Risk:    ● High / ▲ Medium / ○ Low    │
+│ Files:   <관련 파일 수>                 │
+└─────────────────────────────────────────┘
+```
+
+기획 변경 모드:
+```
+┌─ Change Diagnosis ─────────────────────┐
+│ Change:  <변경 요약>                    │
+│ Scope:   <영향 범위 요약>               │
+│ Risk:    ● High / ▲ Medium / ○ Low    │
+│ Files:   <수정 대상 파일 수>             │
+└─────────────────────────────────────────┘
+```
+
+Risk 등급:
+- `● High` — 서비스 장애 또는 데이터 손실 가능
+- `▲ Medium` — 기능 일부 동작 불량
+- `○ Low` — 시각적 이슈 또는 경미한 문제
+
+## 6. Stop 요약 박스
 
 작업 완료 시 전체 상태를 요약합니다.
 
@@ -90,14 +121,14 @@ PRD 변경 영향 분석 결과를 표시합니다.
 └─────────────────────────────────────────┘
 ```
 
-## 6. Session Start 박스
+## 7. Session Start 박스
 
 세션 시작 시 안내 메시지를 표시합니다.
 
 ```
 ┌─ Session Start ──────────────────────────────┐
 │ Skills:  /convention  /spec  /tdd  /ui        │
-│          /impact  /review  /help-me           │
+│          /impact  /review  /deploy  /help-me  │
 │                                               │
 │ TDD:     <기능명> (<phase>) — <pass>/<total>   │
 │                                               │

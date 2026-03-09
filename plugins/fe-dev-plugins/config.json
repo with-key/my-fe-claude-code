@@ -38,6 +38,6 @@
   },
   "agents": {
     "execution": ["tdd-runner", "ui-builder", "spec-analyzer"],
-    "verification": ["test-reviewer", "design-reviewer", "impact-analyzer", "code-reviewer"]
+    "verification": ["test-reviewer", "design-reviewer", "impact-analyzer", "code-reviewer", "deploy-assistant", "code-fixer"]
   }
 }
